@@ -9,6 +9,7 @@
 #import "MASExampleListViewController.h"
 #import "MASExampleViewController.h"
 #import "MASExampleBasicView.h"
+#import "MASExampleUpdateView.h"
 @interface MASExampleListViewController ()
 
 @property (nonatomic, copy) NSArray *exampleControllers;
@@ -21,7 +22,7 @@
     [super viewDidLoad];
     self.title = @"Examples";
     
-    self.exampleControllers = @[[[MASExampleViewController alloc] initWithTitle:@"Basic" viewClass:[MASExampleBasicView class]]];
+    self.exampleControllers = @[[[MASExampleViewController alloc] initWithTitle:@"Basic" viewClass:[MASExampleBasicView class]], [[MASExampleViewController alloc] initWithTitle:@"Update" viewClass:[MASExampleUpdateView class]]];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

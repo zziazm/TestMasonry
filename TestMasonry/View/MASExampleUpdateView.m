@@ -7,6 +7,10 @@
 //
 
 #import "MASExampleUpdateView.h"
+#define MAS_SHORTHAND
+
+#define MAS_SHORTHAND_GLOBALS
+#import "masonry.h"
 @interface MASExampleUpdateView()
 @property (nonatomic, strong) UIButton *growingButton;
 @property (nonatomic, assign) CGSize buttonSize;
@@ -27,13 +31,21 @@
     
     self.buttonSize = CGSizeMake(100, 100);
     
+    [self.growingButton makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self);
+        make.width.equalTo(@(self.buttonSize.width)).priorityLow();
+        make.height.equalTo(@(self.buttonSize.height)).priorityLow();
+        make.width.lessThanOrEqualTo(self);
+        make.height.lessThanOrEqualTo(self);
+    }];
+    
     return self;
 }
 
-- (void)updateConstraints{
-    
-    [super updateConstraints];
-}
+//- (void)updateConstraints{
+//
+//    [super updateConstraints];
+//}
 
 + (BOOL)requiresConstraintBasedLayout {
     return YES;
@@ -41,16 +53,25 @@
 
 - (void)didTapGrowButton:(UIButton *)button {
     self.buttonSize = CGSizeMake(self.buttonSize.width * 2, self.buttonSize.height * 2);
-    
-    // tell constraints they need updating
-    [self setNeedsUpdateConstraints];
-    
-    // update constraints now so we can animate the change
-    [self updateConstraintsIfNeeded];
-    
-    [UIView animateWithDuration:0.4 animations:^{
-        [self layoutIfNeeded];
+
+    [self.growingButton updateConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self).offset(20).priorityHigh();
+        make.width.equalTo(@(self.buttonSize.width)).priorityLow();
+        make.height.equalTo(@(self.buttonSize.height)).priorityLow();
+        make.width.lessThanOrEqualTo(self);
+        make.height.lessThanOrEqualTo(self);
     }];
+    [self layoutIfNeeded];
+//
+//    // tell constraints they need updating
+//    [self setNeedsUpdateConstraints];
+//
+//    // update constraints now so we can animate the change
+//    [self updateConstraintsIfNeeded];
+//
+//    [UIView animateWithDuration:0.4 animations:^{
+//        [self layoutIfNeeded];
+//    }];
 }
 /*
 // Only override drawRect: if you perform custom drawing.
